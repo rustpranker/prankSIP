@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>microSIP — Новая эра для телефонии</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-1:#0f9d58;
+    --green-2:#07b76f;
+    --dark:#062014;
+    --glass: rgba(255,255,255,0.05);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Inter',system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background: linear-gradient(180deg,#06150c 0%, #08321a 60%);
+    color: #e9fff0;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  .bg{position:fixed;inset:0;z-index:0;overflow:hidden}
+  .bubble{position:absolute;border-radius:50%;background: radial-gradient(circle at 30% 30%, rgba(11,200,100,0.18), rgba(6,140,70,0.06));box-shadow: 0 8px 40px rgba(2,40,20,0.6);filter: blur(6px);animation: floatUp linear infinite;opacity:0.9}
+  @keyframes floatUp{from{ transform: translateY(40vh) scale(.9); opacity:.6 }to{ transform: translateY(-40vh) scale(1.1); opacity:0.12 }}
+  header{position:relative;z-index:2;padding:28px 20px;display:flex;justify-content:center;}
+  .banner{width:95%;max-width:1100px;background: linear-gradient(90deg, rgba(10,80,40,0.22), rgba(10,120,60,0.12));border: 1px solid rgba(12,150,80,0.12);border-radius:18px;padding:18px 22px;display:flex;align-items:center;gap:18px;overflow:hidden;backdrop-filter: blur(6px);}
+  .badge{background: linear-gradient(180deg,var(--green-2),var(--green-1));color:white;padding:8px 12px;border-radius:12px;font-weight:700;box-shadow:0 6px 18px rgba(5,120,60,0.25);white-space:nowrap;}
+  .advantages{flex:1;font-weight:600;font-size:18px;position:relative;min-height:28px;}
+  .adv-item{position:absolute;left:0;right:0;top:0;opacity:0;transform: translateY(8px);transition: all 600ms cubic-bezier(.2,.9,.2,1);text-align:center;font-family: 'Inter', sans-serif;color: #eaffef;text-shadow: 0 2px 12px rgba(3,20,10,0.6);}
+  .adv-item.show{opacity:1;transform: translateY(0);}
+  .download-btn{background:linear-gradient(180deg,var(--green-1),var(--green-2));color:white;padding:12px 18px;border-radius:12px;font-weight:700;border: none;box-shadow: 0 10px 30px rgba(5,115,55,0.28);transition: transform .18s ease, box-shadow .18s;}
+  .download-btn:hover{ transform: translateY(-4px); box-shadow: 0 16px 38px rgba(5,115,55,0.36); }
+  .hero{display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 20px 120px;position:relative;z-index:2;}
+  .card{width:100%;max-width:980px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:20px;padding:36px;box-shadow: 0 30px 80px rgba(2,18,10,0.55);border: 1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden;}
+  .logo{display:block;margin: 0 auto 18px;width:140px;height:140px;border-radius:20px;background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));display:flex;align-items:center;justify-content:center;padding:8px;}
+  .logo img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;}
+  h1{margin:6px 0 10px;font-size:28px;letter-spacing:0.4px;font-weight:800;color: #eaffef;}
+  p.lead{margin:0 auto 18px;color: #dfffe6;max-width:760px;font-size:16px;opacity:0.95;}
+  .hero-cta{display:flex;justify-content:center;gap:12px;margin-top:12px;}
+  .ring{position:absolute;inset:auto auto 12px 12px;width:72px;height:72px;border-radius:50%;background:transparent;pointer-events:none;}
+  .ring:before, .ring:after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid rgba(8,200,120,0.06);animation: ring 2.2s infinite;}
+  .ring:after{ animation-delay:.6s; transform:scale(.7); opacity:.9; border-style:dashed; }
+  @keyframes ring{0%{ transform: scale(.6); opacity:0; }30%{ opacity:1; }100%{ transform: scale(2.6); opacity:0; }}
+  footer{text-align:center;padding:24px;color: rgba(220,255,235,0.7);font-size:13px;}
+  @media (max-width:720px){ h1{ font-size:22px; } .banner{padding:12px} }
+
+/* spiderweb overlay styles */
+.spiderweb-overlay{position:fixed;inset:0;pointer-events:none;z-index:999;mix-blend-mode:screen;opacity:0.14;display:block;animation:sw-rotate 40s linear infinite;}
+.spiderweb-overlay svg{width:100%;height:100%;display:block;}
+@keyframes sw-rotate{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+/* subtle pulsing of stroke */
+.spiderweb-overlay .web-path{stroke-dasharray:8 6;animation:dash 6s linear infinite}
+@keyframes dash{0%{stroke-dashoffset:0;}100%{stroke-dashoffset:28;}}
+/* reduce intensity on small screens */
+@media (max-width:720px){ .spiderweb-overlay{opacity:0.08;filter:blur(1px);} }
+
+</style>
+</head>
+<body>
+<div class="spiderweb-overlay" aria-hidden="true">
+  <svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="g1" x1="0" x2="1">
+        <stop offset="0" stop-color="#08c964" stop-opacity="0.95"/>
+        <stop offset="1" stop-color="#05a05a" stop-opacity="0.95"/>
+      </linearGradient>
+    </defs>
+    <g fill="none" stroke="url(#g1)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- concentric circles -->
+      <circle class="web-path" cx="400" cy="400" r="60" />
+      <circle class="web-path" cx="400" cy="400" r="120" />
+      <circle class="web-path" cx="400" cy="400" r="180" />
+      <circle class="web-path" cx="400" cy="400" r="240" />
+      <circle class="web-path" cx="400" cy="400" r="300" />
+      <circle class="web-path" cx="400" cy="400" r="360" />
+      <!-- radial lines -->
+      <path class="web-path" d="M400 40 L400 760" />
+      <path class="web-path" d="M40 400 L760 400" />
+      <path class="web-path" d="M120 120 L680 680" />
+      <path class="web-path" d="M120 680 L680 120" />
+      <path class="web-path" d="M200 60 L600 740" />
+      <path class="web-path" d="M60 200 L740 600" />
+      <path class="web-path" d="M60 600 L740 200" />
+      <path class="web-path" d="M200 740 L600 60" />
+    </g>
+  </svg>
+</div>
+
+<div class="bg" aria-hidden="true">
+  <div class="bubble" style="width:220px;height:220px;left:5%;bottom:-40px; animation-duration:28s;"></div>
+  <div class="bubble" style="width:140px;height:140px;left:22%;bottom:-20px; animation-duration:22s;opacity:.7"></div>
+  <div class="bubble" style="width:380px;height:380px;right:-10%;bottom:-120px; animation-duration:36s;opacity:.65"></div>
+  <div class="bubble" style="width:90px;height:90px;right:22%;bottom:-30px; animation-duration:18s;opacity:.9"></div>
+  <div class="bubble" style="width:60px;height:60px;left:54%;bottom:-10px; animation-duration:16s;opacity:.8"></div>
+</div>
+
+<header>
+  <div class="banner" role="banner" aria-label="Преимущества microSIP">
+    <div class="badge">microSIP</div>
+    <div class="advantages" id="advantages" aria-live="polite">
+      <div class="adv-item show">Кристально-чистое качество звонков</div>
+      <div class="adv-item">Низкая задержка и экономия трафика</div>
+      <div class="adv-item">Поддержка SIP и множественных аккаунтов</div>
+      <div class="adv-item">Шифрование и безопасность вызовов</div>
+      <div class="adv-item">Лёгкая настройка и автоконфиг</div>
+    </div>
+    <div style="min-width:160px;display:flex;justify-content:flex-end">
+      <a class="call-btn" href="download.html">
+        <button class="download-btn" aria-label="Скачать бесплатно">Скачать бесплатно</button>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="hero" role="main">
+  <div class="card">
+    <div class="logo" title="microSIP logo">
+      <img src="https://postimg.cc/5j5127rz" alt="Логотип microSIP">
+    </div>
+    <h1>microSIP - Новая эра для телефонии !</h1>
+    <p class="lead">PrankSIP — современное приложение для звонков: удобный интерфейс, высокое качество и гибкая настройка. Попробуй прямо сейчас и ощути разницу в связи.</p>
+
+    <div class="hero-cta">
+      <a href="download.html"><button class="download-btn">Скачать бесплатно</button></a>
+    </div>
+
+    <div class="ring" aria-hidden="true"></div>
+  </div>
+</main>
+
+<footer>© <span id="year"></span> microSIP. Все права защищены.</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();
+(function(){const items = Array.from(document.querySelectorAll('.adv-item'));let idx = 0;function show(i){items.forEach((el, j)=>{el.classList.toggle('show', j===i);});}setInterval(()=>{idx = (idx+1) % items.length;show(idx);}, 3000);})();window.addEventListener('load', ()=>{const items = document.querySelectorAll('.adv-item');items.forEach((el,i)=> setTimeout(()=> el.classList.add('show'), 120*i));});</script>
+</body>
+</html>

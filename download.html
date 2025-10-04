@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Загрузка — microSIP</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--green-1:#0f9d58;--green-2:#07b76f}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#07130b,#052712);font-family:'Inter',sans-serif;color:#eaffe8}
+  .box{width:95%;max-width:720px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:30px;border-radius:16px;text-align:center;box-shadow: 0 30px 70px rgba(2,18,10,0.6)}
+  h2{margin:0 0 10px;font-size:22px}
+  p{margin:0 0 20px;color:#dfffe6}
+  .hint{font-size:14px;opacity:0.9;margin-bottom:20px}
+  .dl-btn{background:linear-gradient(180deg,var(--green-1),var(--green-2));padding:12px 20px;border-radius:12px;border:none;color:white;font-weight:700;cursor:pointer;box-shadow: 0 12px 30px rgba(5,115,55,0.28);text-decoration:none;}
+  .small{font-size:13px;color:rgba(220,255,235,0.8);margin-top:18px}
+
+/* spiderweb overlay styles */
+.spiderweb-overlay{position:fixed;inset:0;pointer-events:none;z-index:999;mix-blend-mode:screen;opacity:0.14;display:block;animation:sw-rotate 40s linear infinite;}
+.spiderweb-overlay svg{width:100%;height:100%;display:block;}
+@keyframes sw-rotate{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+/* subtle pulsing of stroke */
+.spiderweb-overlay .web-path{stroke-dasharray:8 6;animation:dash 6s linear infinite}
+@keyframes dash{0%{stroke-dashoffset:0;}100%{stroke-dashoffset:28;}}
+/* reduce intensity on small screens */
+@media (max-width:720px){ .spiderweb-overlay{opacity:0.08;filter:blur(1px);} }
+
+</style>
+</head>
+<body>
+<div class="spiderweb-overlay" aria-hidden="true">
+  <svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="g1" x1="0" x2="1">
+        <stop offset="0" stop-color="#08c964" stop-opacity="0.95"/>
+        <stop offset="1" stop-color="#05a05a" stop-opacity="0.95"/>
+      </linearGradient>
+    </defs>
+    <g fill="none" stroke="url(#g1)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- concentric circles -->
+      <circle class="web-path" cx="400" cy="400" r="60" />
+      <circle class="web-path" cx="400" cy="400" r="120" />
+      <circle class="web-path" cx="400" cy="400" r="180" />
+      <circle class="web-path" cx="400" cy="400" r="240" />
+      <circle class="web-path" cx="400" cy="400" r="300" />
+      <circle class="web-path" cx="400" cy="400" r="360" />
+      <!-- radial lines -->
+      <path class="web-path" d="M400 40 L400 760" />
+      <path class="web-path" d="M40 400 L760 400" />
+      <path class="web-path" d="M120 120 L680 680" />
+      <path class="web-path" d="M120 680 L680 120" />
+      <path class="web-path" d="M200 60 L600 740" />
+      <path class="web-path" d="M60 200 L740 600" />
+      <path class="web-path" d="M60 600 L740 200" />
+      <path class="web-path" d="M200 740 L600 60" />
+    </g>
+  </svg>
+</div>
+
+  <div class="box" role="main">
+    <h2>Скоро начнется загрузка — удачи в использовании!</h2>
+    <p class="hint">Если загрузка не началась автоматически, нажмите кнопку ниже.</p>
+
+    <!-- The link below points to the bundled .exe inside the downloads/ folder -->
+    <a id="downloadLink" class="dl-btn" href="downloads/prankSIP_installer.exe" download>Скачать установщик (.exe)</a>
+
+    <div class="small">Примечание: браузеры не позволяют автоматически запускать .exe или запрашивать права администратора с веб-страницы. После загрузки пользователь должен вручную запустить файл и подтвердить права, если это необходимо.</div>
+  </div>
+<script>
+  // Optional: attempt to open the link after a short delay (many browsers block this)
+  // setTimeout(()=> document.getElementById('downloadLink').click(), 1200);
+</script>
+</body>
+</html>
